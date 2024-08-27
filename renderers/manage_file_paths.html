@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+        <title>Hello World!</title>
+    </head>
+    <body>
+        <!-- <h1>Hello World!</h1>
+        We are using Node.js <span id="node-version"></span>,
+        Chromium <span id="chrome-version"></span>,
+        and Electron <span id="electron-version"></span>.
+        <button id="logout" class="btn">Logout</button> -->
+
+        <!-- Main Content -->
+        <div class="w-full max-w-2xl mx-auto p-6 rounded-lg shadow-lg mt-8">
+
+            <h2 class="font-semibold text-gray-100 text-center mb-4" style="font-size: 26px;">
+                Enter a Directory Path to Organize
+            </h2>
+            
+            <hr class="border-gray-700 mt-4 mb-4">
+
+            <!-- File Path Form -->
+            <form id="uploadForm" class="space-y-6">
+                <div>
+                    <label class="block text-gray-400 text-sm font-bold mb-2" for="directoryInput">
+                        Directory Filepath:
+                    </label>
+                    <div class="flex">
+                        <input 
+                            type="text" 
+                            id="directory_path_input" 
+                            name="directory_path" 
+                            placeholder="/user/documents/project_folder" 
+                            class="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-gray-300 focus:outline-none focus:ring focus:border-blue-500" 
+                            required
+                        >
+                    </div>
+                </div>
+
+                <button 
+                    type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring focus:border-blue-500"
+                >
+                    Organize
+                </button>
+            </form>
+
+            <!-- Loader -->
+            <div id="loader" class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 hidden">
+                <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-100"></div>
+            </div>
+
+            <hr class="border-gray-700 mt-10 mb-0">
+
+            <!-- Entered File Paths List -->
+            <div id="filePathsList" class="mt-8">
+                <h3 class="text-xl font-semibold text-gray-200 mb-4">
+                    Saved File Paths
+                </h3>
+
+                {% if directory_objects|length > 0 %}
+
+                <ul class="space-y-4">
+
+                    {% for dobj in directory_objects %}
+
+                        <li class="flex justify-between items-center bg-gray-700 p-3 rounded-md shadow-sm">
+                            <span class="text-gray-300">
+                                {{ dobj.user_directory_path }}
+                            </span>
+                            <button class="text-red-400 hover:text-red-600 focus:outline-none">
+                                <a href="{% url 'delete_user_file_path' dobj.id %}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                                <!-- <i class="fa-solid fa-trash"></i> -->
+                            </button>
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+                {% else %}
+
+                <div class="h-60 rounded-lg">
+                    <p class="text-gray-500 mt-6">
+                        No file paths saved yet...
+                    </p>
+                </div>
+
+                {% endif %}
+                
+            </div>
+
+            <!-- Response Message -->
+            <div id="responseMessage" class="mt-4 hidden p-3 text-center rounded-md bg-blue-600 text-white">
+                <!-- Success/Error message will be displayed here -->
+            </div>
+        </div>
+
+        </div>
+
+    </body>
+
+    <!-- <script src="fe_script.js"></script> -->
+</html>
