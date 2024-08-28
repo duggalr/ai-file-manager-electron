@@ -1,4 +1,5 @@
 const { BrowserWindow } = require('electron');
+const path = require("path");
 const authService = require('../services/auth-service');
 const createAppWindow = require('../main/app-process');
 
@@ -8,11 +9,14 @@ function createAuthWindow() {
   destroyAuthWin();
 
   win = new BrowserWindow({
-    width: 1000,
-    height: 600,
+    // width: 1000,
+    // height: 600,
+    width: 1800,
+    height: 1200,
     webPreferences: {
       nodeIntegration: false,
-      enableRemoteModule: false
+      enableRemoteModule: false,
+      preload: path.join(__dirname, "preload.js"),
     }
   });
 

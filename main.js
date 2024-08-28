@@ -1,41 +1,19 @@
-// main.js
-
-// Modules to control application life and create native browser window
-// const { app, BrowserWindow } = require('electron');
 const { app, ipcMain, BrowserWindow } = require('electron');
-const path = require('node:path');
 const { createAuthWindow, createLogoutWindow } = require('./main/auth-process');
 const createSplashWindow = require('./main/splash-process');
 const createAppWindow = require('./main/app-process');
 const authService = require('./services/auth-service');
 const apiService = require('./services/api-service');
+const axios = require('axios');
 
+const envVariables = require('./env-variables');
+const os = require('os');
+const keytar = require('keytar');
+const keytarService = 'electron-openid-oauth';
+const keytarAccount = os.userInfo().username;
 
-// const createWindow = () => {
+const {apiIdentifier, auth0Domain, clientId, clientSecret} = envVariables;
 
-//     // Create the browser window.
-//     const mainWindow = new BrowserWindow({
-//         width: 800,
-//         height: 600,
-//         webPreferences: {
-//             preload: path.join(__dirname, 'preload.js')
-//         }
-//     })
-
-//     // TODO: 
-//         // do the logic here to display the main screen 
-//         // from there, setup the authentication and save in django backend under correct table
-//         // create test protected-endpoint that requires token-validation, etc.
-//         // implement login/logout
-//         // proceed from there to actual app
-
-//     // and load the index.html of the app.
-//     mainWindow.loadFile('index.html');
-
-//     // Open the DevTools.
-//     mainWindow.webContents.openDevTools();
-
-// }
 
 async function showWindow() {
     try {
@@ -45,6 +23,28 @@ async function showWindow() {
         createAuthWindow();
     }
 };
+
+
+ipcMain.handle('auth:get-access-token', async () => {
+    
+    try {
+        const refreshToken = await keytar.getPassword(keytarService, keytarAccount);
+        const response = await axios.post(`https://${auth0Domain}/oauth/token`, {
+            client_id: clientId,
+            client_secret: clientSecret,
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken,
+        });
+
+        const accessToken = response.data.access_token;
+        return accessToken;
+
+    } catch (error) {
+        console.error('Error fetching access token:', error);
+        return null; // Handle error as needed, e.g., return null or throw
+    }
+});
+
 
 app.on('ready', () => {
     

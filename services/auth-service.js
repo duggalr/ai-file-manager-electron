@@ -50,9 +50,9 @@ async function refreshTokens() {
             url: `https://${auth0Domain}/oauth/token`,
             headers: {'content-type': 'application/json'},
             data: {
-            grant_type: 'refresh_token',
-            client_id: clientId,
-            refresh_token: refreshToken,
+                grant_type: 'refresh_token',
+                client_id: clientId,
+                refresh_token: refreshToken,
             }
         };
 

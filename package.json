@@ -3,32 +3,17 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "build:css": "npx tailwindcss -i ./styles/main.css -o ./renderers/styles.css --minify"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@electron-forge/cli": "^7.4.0",
-    "@electron-forge/maker-deb": "^7.4.0",
-    "@electron-forge/maker-rpm": "^7.4.0",
-    "@electron-forge/maker-squirrel": "^7.4.0",
-    "@electron-forge/maker-zip": "^7.4.0",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
-    "@electron-forge/plugin-fuses": "^7.4.0",
-    "@electron/fuses": "^1.8.0",
-    "autoprefixer": "^10.4.20",
-    "electron": "^32.0.1",
-    "postcss": "^8.4.41",
-    "postcss-loader": "^8.1.1",
-    "tailwindcss": "^2.2.19"
+    "electron": "^32.0.1"
   },
   "dependencies": {
     "axios": "^1.7.5",
-    "electron-squirrel-startup": "^1.0.1",
     "jwt-decode": "^4.0.0",
     "keytar": "^7.9.0"
   }
