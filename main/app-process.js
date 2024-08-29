@@ -13,7 +13,7 @@ function createAppWindow() {
     }
   });
 
-  win.loadFile('./renderers/index.html');
+  win.loadFile('./renderers/manage_file_path.html');
   win.openDevTools();
 
   win.on('closed', () => {

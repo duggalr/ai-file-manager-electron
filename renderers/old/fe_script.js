@@ -1,6 +1,5 @@
 let accessToken;
 
-
 // Function to update UI with user data
 function updateUIWithUserData(userData) {
     // console.log('user-data:', userData);
@@ -125,68 +124,92 @@ document.addEventListener('DOMContentLoaded', () => {
 
             document.getElementById('directory_path_list').prepend(list_element);
 
-            try {
-                const response = await fetch('http://127.0.0.1:8000/api/handle_user_directory_filepath_submission', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
-                    },
-                    body: JSON.stringify({ directory_path: directoryPathValue })
-                });
+            // TODO: 
+            // Call the API exposed by the preload script to redirect
+            window.electronAPI.redirectToFileView();
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+            // ipcRenderer.send('redirect-to-file-view');
 
-                // Parse the JSON response
-                const data = await response.json();
-                console.log('Response Data:', data);
+            // try {
+            //     const response = await fetch('http://127.0.0.1:8000/api/handle_user_directory_filepath_submission', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             'Authorization': `Bearer ${accessToken}`,
+            //         },
+            //         body: JSON.stringify({ directory_path: directoryPathValue })
+            //     });
 
-                // TODO:
-                    // Start polling the processing status endpoint every 1 second
-                const intervalId = setInterval(async () => {
-                    try {
-                        const statusResponse = await fetch('http://127.0.0.1:8000/api/check_processing_status', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${accessToken}`,
-                            },
-                        });
+            //     if (!response.ok) {
+            //         throw new Error(`HTTP error! Status: ${response.status}`);
+            //     }
 
-                        if (!statusResponse.ok) {
-                            throw new Error(`HTTP error! Status: ${statusResponse.status}`);
-                        }
+            //     // Parse the JSON response
+            //     const data = await response.json();
+            //     console.log('Response Data:', data);
 
-                        const statusData = await statusResponse.json();
-                        console.log('Processing Status:', statusData);
+            //     // TODO:
+            //         // Start polling the processing status endpoint every 1 second
+            //     const intervalId = setInterval(async () => {
+            //         try {
+            //             const statusResponse = await fetch('http://127.0.0.1:8000/api/check_processing_status', {
+            //                 method: 'POST',
+            //                 headers: {
+            //                     'Content-Type': 'application/json',
+            //                     'Authorization': `Bearer ${accessToken}`,
+            //                 },
+            //             });
 
-                        // Check if processing is complete
-                        if (statusData.files_under_process === false) {
-                            clearInterval(intervalId); // Stop the polling
-                            console.log('Processing completed successfully!');
-                            fp_loader.classList.add('hidden');
+            //             if (!statusResponse.ok) {
+            //                 throw new Error(`HTTP error! Status: ${statusResponse.status}`);
+            //             }
 
-                            // TODO:
-                                // From here:
-                                    // View GPT's response and implement the ability to send user to 'file_view.html' page
-                                    // From there --> implement the file view functionality and finalize manage and file-view completely**
+            //             const statusData = await statusResponse.json();
+            //             console.log('Processing Status:', statusData);
 
-                        }
-                    } catch (error) {
-                        console.error('Error checking processing status:', error);
-                        clearInterval(intervalId); // Stop polling on error
-                        loader.classList.add('hidden'); // Hide the loader
-                    }
-                }, 1000); // Poll every 1 second
+            //             // Check if processing is complete
+            //             if (statusData.files_under_process === false) {
+            //                 clearInterval(intervalId); // Stop the polling
+            //                 console.log('Processing completed successfully!');
+            //                 fp_loader.classList.add('hidden');
+                            
+            //                 // Send an IPC message to the main process to redirect
+            //                 ipcRenderer.send('redirect-to-file-view');
+            //             }
+            //         } catch (error) {
+            //             console.error('Error checking processing status:', error);
+            //             clearInterval(intervalId); // Stop polling on error
+            //             loader.classList.add('hidden'); // Hide the loader
+            //         }
+            //     }, 1000); // Poll every 1 second
 
-            } catch (error) {
-                console.error('Error:', error);
-                // Handle any errors that occur during fetch
-            }
+            // } catch (error) {
+            //     console.error('Error:', error);
+            //     // Handle any errors that occur during fetch
+            // }
 
         });
     }
 
 });
+
+
+
+// const view_files_element = document.getElementById('view_files_link');
+
+// view_files_element.addEventListener('click', async (e) => {
+
+//     window.electronAPI.redirectToFileView();
+
+// });
+
+
+// Function to include the sidebar HTML dynamically
+function loadSidebar() {
+    fetch('sidebar.html').then(response => response.text()).then(data => {
+        document.getElementById('sidebar-container').innerHTML = data;
+    }).catch(error => console.error('Error loading sidebar:', error));
+}
+
+// Load the sidebar when the page loads
+window.addEventListener('DOMContentLoaded', loadSidebar);

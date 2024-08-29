@@ -46,6 +46,18 @@ ipcMain.handle('auth:get-access-token', async () => {
 });
 
 
+ipcMain.on('redirect-to-file-view', (event) => {
+    const win = BrowserWindow.getFocusedWindow();
+    win.loadFile('./renderers/file_view.html');
+});
+
+
+ipcMain.on('redirect-to-manage-fp', (event) => {
+    const win = BrowserWindow.getFocusedWindow();
+    win.loadFile('./renderers/manage_file_path.html');
+});
+
+
 app.on('ready', () => {
     
     // Handle IPC messages from the renderer process.
@@ -53,7 +65,7 @@ app.on('ready', () => {
     ipcMain.handle('api:get-private-data', apiService.getPrivateData);
     ipcMain.on('auth:log-out', () => {
         console.log('logout');
-        BrowserWindow.getAllWindows().forEach(window => window.close());
+        // BrowserWindow.getAllWindows().forEach(window => window.close());
         createLogoutWindow();
     });
 

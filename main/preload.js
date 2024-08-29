@@ -24,7 +24,12 @@ const electronAPI = {
     } catch (error) {
       console.error('Failed to get access token:', error);
     }
-  }
+  },
+
+  redirectToFileView: () => ipcRenderer.send('redirect-to-file-view'),
+
+  redirectToManageFilePath: () => ipcRenderer.send('redirect-to-manage-fp'),
+
 };
 
 process.once('loaded', () => {
