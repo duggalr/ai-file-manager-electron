@@ -85,6 +85,8 @@ async function initializeAndLoadUserData() {
     // Wait until access token is fetched
     accessToken = await window.electronAPI.getAccessToken();
 
+    console.log('access-tokenn:', accessToken);
+
     // Wait for initial load to complete
     await _initialLoadFiles();
 

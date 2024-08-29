@@ -34,6 +34,7 @@ ipcMain.handle('auth:get-access-token', async () => {
             client_secret: clientSecret,
             grant_type: 'refresh_token',
             refresh_token: refreshToken,
+            audience: apiIdentifier,
         });
 
         const accessToken = response.data.access_token;

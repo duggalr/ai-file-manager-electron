@@ -28,16 +28,30 @@ function getProfile() {
 
 function getAuthenticationURL() {
     return (
+        // "https://" +
+        // auth0Domain +
+        // "/authorize?" +
+        // "scope=openid profile email offline_access&" +
+        // "response_type=code&" +
+        // "client_id=" +
+        // clientId +
+        // "&" +
+        // "redirect_uri=" +
+        // redirectUri
+
         "https://" +
         auth0Domain +
         "/authorize?" +
-        "scope=openid profile email offline_access&" +
+        "scope=openid profile email&" +
         "response_type=code&" +
         "client_id=" +
         clientId +
         "&" +
         "redirect_uri=" +
-        redirectUri
+        redirectUri +
+        "&" +
+        "audience=" +
+        apiIdentifier
     );
 }
 
@@ -53,6 +67,7 @@ async function refreshTokens() {
                 grant_type: 'refresh_token',
                 client_id: clientId,
                 refresh_token: refreshToken,
+                audience: apiIdentifier,
             }
         };
 
@@ -75,14 +90,14 @@ async function refreshTokens() {
 async function loadTokens(callbackURL) {  // callback
     const urlParts = url.parse(callbackURL, true);
     const query = urlParts.query;
-
+    
     const exchangeOptions = {
         'grant_type': 'authorization_code',
         'client_id': clientId,
         'code': query.code,
         'redirect_uri': redirectUri,
-        'audience': apiIdentifier,
         'scope': 'openid profile email',
+        'audience': apiIdentifier,
     };
 
     const options = {
