@@ -31,18 +31,32 @@ async function initialViewPopulate() {
             for (i=0; i<=user_directory_fp_list.length-1; i++){
 
                 let dp_element = user_directory_fp_list[i];
+                let dir_object_id = dp_element[0];
                 let full_user_dir_path = dp_element[2];
                 
                 let list_element = document.createElement('li');
                 list_element.className = 'flex justify-between items-center bg-gray-700 p-3 rounded-md shadow-sm';
                 
                 let span_one_element = document.createElement('span');
-                span_one_element.className = 'text-gray-300';
+                span_one_element.setAttribute('data-dir-id', dir_object_id);
+                span_one_element.className = 'text-gray-300 cursor-pointer hover:text-blue-400';
                 span_one_element.innerText = full_user_dir_path;
+
+                span_one_element.addEventListener("click", function handleSpanClick(){
+                    console.log('dir-id:', dir_object_id);
+                    localStorage.setItem("directory_object_id", dir_object_id);
+                    window.electronAPI.redirectToFileView();
+
+                }, false)
     
                 let button_one_element = document.createElement('button');
                 button_one_element.className = 'text-red-400 hover:text-red-600 focus:outline-none cursor-pointer';
                 
+                // TODO: implement
+                button_one_element.addEventListener("click", function handleDeleteButtonClick(){
+                    console.log('attempt to delete directory:', dir_object_id);
+                }, false);
+
                 let button_href_element = document.createElement('a');
                 // button_href_element.href = '#';
                 
@@ -252,8 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             //     }
             // }, 1000); // Poll every 1 second
-
-
 
         });
 
