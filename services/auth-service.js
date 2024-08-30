@@ -42,7 +42,7 @@ function getAuthenticationURL() {
         "https://" +
         auth0Domain +
         "/authorize?" +
-        "scope=openid profile email&" +
+        "scope=openid profile email offline_access&" +
         "response_type=code&" +
         "client_id=" +
         clientId +
@@ -57,7 +57,6 @@ function getAuthenticationURL() {
 
 async function refreshTokens() {
     const refreshToken = await keytar.getPassword(keytarService, keytarAccount);
-
     if (refreshToken) {
         const refreshOptions = {
             method: 'POST',
@@ -96,7 +95,7 @@ async function loadTokens(callbackURL) {  // callback
         'client_id': clientId,
         'code': query.code,
         'redirect_uri': redirectUri,
-        'scope': 'openid profile email',
+        'scope': 'openid profile email offline_access',
         'audience': apiIdentifier,
     };
 
@@ -115,7 +114,7 @@ async function loadTokens(callbackURL) {  // callback
         accessToken = response.data.access_token;
         profile = jwtDecode.jwtDecode(response.data.id_token);
         refreshToken = response.data.refresh_token;
-    
+
         // Save the refresh token if it exists
         if (refreshToken) {
             await keytar.setPassword(keytarService, keytarAccount, refreshToken);
