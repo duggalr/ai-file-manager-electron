@@ -6,6 +6,7 @@
         <title>File Companion</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="./styles.css">
+        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     </head>
 
     <body class="bg-gray-900 text-gray-300">
@@ -68,7 +69,6 @@
                         </ol>
                     </nav>
 
-
                     <!-- Main modal -->
                     <div
                         id="select-view-modal"
@@ -96,24 +96,21 @@
                                     <form class="space-y-4" action="#">
                                         <!-- Change checkboxes to radio buttons -->
                                         <div class="flex items-center mb-4">
-                                            <input id="entity-radio" name="view_preference" type="radio" value="entity" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600" 
-                                            {% if user_profile_object.user_view_preference == 'entity' %} checked {% endif %}>
+                                            <input id="entity-radio" name="view_preference" type="radio" value="entity" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
                                             <label for="entity-radio" class="ms-2 pl-1 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                 Entities
                                             </label>
                                         </div>
 
                                         <div class="flex items-center mb-4">
-                                            <input id="category-radio" name="view_preference" type="radio" value="category" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
-                                            {% if user_profile_object.user_view_preference == 'category' %} checked {% endif %}>
+                                            <input id="category-radio" name="view_preference" type="radio" value="category" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
                                             <label for="category-radio" class="ms-2 pl-1 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                 Categories
                                             </label>
                                         </div>
 
                                         <div class="flex items-center mb-4">
-                                            <input id="sub-category-radio" name="view_preference" type="radio" value="sub_category" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
-                                            {% if user_profile_object.user_view_preference == 'sub_category' %} checked {% endif %}>
+                                            <input id="sub-category-radio" name="view_preference" type="radio" value="sub_category" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
                                             <label for="sub-category-radio" class="ms-2 pl-1 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                 Sub-Categories
                                             </label>
@@ -130,7 +127,6 @@
                             </div>
                         </div>
                     </div>
-
 
                     <!-- Main Section Header -->
                     <div class="flex items-center justify-between mb-4 mt-3" id="primary_section_sub_header">

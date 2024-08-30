@@ -198,10 +198,141 @@ async function _initialFileViewPopulate(){
 // _initialFileViewPopulate();
 
 
+async function _updateModalCheckedSelection(){
+
+    const radios = document.getElementsByName('view_preference');
+    radios.forEach((radio) => {
+        if (radio.value === globalViewType) {
+            radio.checked = true;
+        }
+    });
+
+};
+
+
+async function _updateViewByDropdown(){    
+
+}
+
+const dropdownButton = document.getElementById('viewDropdown');
+const dropdownMenu = document.getElementById('viewDropdownMenu');
+const dropdownText = document.getElementById('viewDropdownText');
+
+// Toggle dropdown on button click
+dropdownButton.addEventListener('click', function() {
+    dropdownMenu.classList.toggle('hidden');
+});
+
+
+// Menu items on click listener
+dropdownMenu.querySelectorAll('li').forEach(function(item) {
+    item.addEventListener('click', function() {
+        const selectedValue = this.textContent.trim();
+        console.log('Selected:', selectedValue);  // Print the selected value
+
+        // Set the button text to the selected value
+        dropdownText.textContent = 'View by: ' + selectedValue;
+
+        // Close the dropdown menu
+        dropdownMenu.classList.add('hidden');
+
+        // console.log('selected-value:', selectedValue);
+        let current_tmp_selected_value;
+        if (selectedValue === 'Entities'){
+            current_tmp_selected_value = 'entity';
+        }
+        else if (selectedValue === 'Sub-Categories') {
+            current_tmp_selected_value = 'Sub-Categories';
+        }
+        else {
+            current_tmp_selected_value = 'category';
+        }
+
+        // TODO: replace the jquery
+        if (globalViewType != current_tmp_selected_value){
+
+            // globalViewType = current_tmp_selected_value;
+
+            // // Fetch everything from breadcrumb list 
+            // var listItems = $('#breadcrumb-list').children('li');
+            // console.log('list-elements:', listItems);
+
+            // var breadcrumb_value_list = [];
+            // listItems.each(function(index, element) {
+
+            //     console.log('child-elem;', element)
+            //     let a_href_element = $(element).children('a');
+
+            //     let data_value = $($(element).children()[0]).children()[0].getAttribute('data-val');
+            //     console.log('data-value-attribute:', data_value);
+            //     breadcrumb_value_list.push(data_value);
+
+            // });
+            // console.log('breadcrumb:', breadcrumb_value_list);
+
+            // // filter_value --> current breadcrumb value
+
+            let tmp_bc_list = document.getElementById('breadcrumb-list');
+            // let tmp_li_elements = $(tmp_bc_list).children('li');
+            let tmp_li_elements = tmp_bc_list.getElementsByTagName('li');
+            console.log('tmp_li_elements', tmp_li_elements);
+
+            let breadcrumb_value_list = [];
+            for (let i = 0; i < tmp_li_elements.length; i++) {
+                let tp_li_bc_elements = $(tmp_li_elements[i]).children().children();
+                let ahref_tag;
+                if (tp_li_bc_elements.length == 1){
+                    ahref_tag = tp_li_bc_elements[0];
+                } else if (tp_li_bc_elements.length > 1) {
+                    ahref_tag = tp_li_bc_elements[1];
+                }
+                breadcrumb_value_list.push(ahref_tag.getAttribute('data-val'));
+            }
+
+            console.log('breadcrumb-LIST:', breadcrumb_value_list);
+
+            console.log('last-bc-value:', breadcrumb_value_list[breadcrumb_value_list.length - 1]);
+            let last_bc_value = breadcrumb_value_list[breadcrumb_value_list.length - 1];
+
+            var final_rv = {
+                'current_filter_value': last_bc_value,
+                'breadcrumb_value_list': breadcrumb_value_list,
+                'switch_view_to':  current_tmp_selected_value
+            };
+            console.log('final-rv:', final_rv);
+
+            // // filterCategoryData(final_rv);
+            $.ajax({
+                url: '{% url "switch_filtered_file_data" %}',
+                type: 'POST',
+                data: {
+                    'filter_data': JSON.stringify(final_rv),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    console.log('data:', response);
+                    if (response['success'] === true){
+                        globalViewType = response['global_view_type'];
+                        // append_category_data(
+                        //     response
+                        // );
+                    }
+                }
+            });
+
+        };
+    });
+});
+
+
+
 async function _main(){
    
     await initializeAndLoadUserData();
     await _initialFileViewPopulate();
+    await _updateModalCheckedSelection();
+
+
 
 }
 
@@ -270,4 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
 });
+
+
+
 
