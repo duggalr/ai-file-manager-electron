@@ -31,6 +31,9 @@ async function initialViewPopulate() {
             for (i=0; i<=user_directory_fp_list.length-1; i++){
 
                 let dp_element = user_directory_fp_list[i];
+
+                console.log('dp_element:', dp_element);
+
                 let dir_object_id = dp_element[0];
                 let full_user_dir_path = dp_element[2];
                 
@@ -45,8 +48,8 @@ async function initialViewPopulate() {
                 span_one_element.addEventListener("click", function handleSpanClick(){
                     console.log('dir-id:', dir_object_id);
                     localStorage.setItem("directory_object_id", dir_object_id);
+                    console.log('localstorage-value:', localStorage.getItem("directory_object_id"));
                     window.electronAPI.redirectToFileView();
-
                 }, false)
     
                 let button_one_element = document.createElement('button');
@@ -222,10 +225,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (fp_under_process === false) {
 
+                    // TODO: once response is good --> get directory-id, set in localstorage and proceed from there
+                    
                     clearInterval(intervalId);
                     console.log('Processing completed successfully!');
-                    // fp_loader.classList.add('hidden');
-                    window.electronAPI.redirectToFileView();
+                    window.electronAPI.redirectToManageFilePath();
+                    // // fp_loader.classList.add('hidden');
+                    // window.electronAPI.redirectToFileView();
 
                 }
 
