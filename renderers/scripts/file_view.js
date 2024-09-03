@@ -85,7 +85,7 @@ function addListenersToElements(){
         window.electronAPI.logOut();
     });
 
-}
+};
 
 // Function to initialize loading files and then update with user data
 async function initializeAndLoadUserData() {

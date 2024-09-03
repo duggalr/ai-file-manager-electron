@@ -107,11 +107,10 @@ async function initialViewPopulate() {
 
 };
 
-initialViewPopulate();
-
-// loader_parent_div
-// directory_path_list
-// no_filepath_p_tag
+// initialViewPopulate();
+// // loader_parent_div
+// // directory_path_list
+// // no_filepath_p_tag
 
 
 
@@ -278,3 +277,63 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 });
+
+
+
+function addListenersToElements(){
+
+    // Onclick listener for 'View Files' link
+    const view_files_element = document.getElementById('view_files_link');
+    view_files_element.addEventListener('click', async (e) => {
+        window.electronAPI.redirectToFileView();
+    });
+    
+    // Onclick listener for 'Manage Filepath' link
+    const manage_fp_element = document.getElementById('manage_fp_link');
+    manage_fp_element.addEventListener('click', async (e) => {
+        window.electronAPI.redirectToManageFilePath();
+    });
+
+    // Onclick listener for 'Logout' link
+    const logout_element = document.getElementById('logout');
+    logout_element.addEventListener('click', async (e) => {
+        window.electronAPI.logOut();
+    });
+
+};
+
+
+
+async function initializeAndLoadUserData() {
+    // Wait until access token is fetched
+    accessToken = await window.electronAPI.getAccessToken();
+
+    console.log('access-tokenn:', accessToken);
+
+    // Wait for initial load to complete
+    await _initialLoadFiles();
+
+    // Fetch user data
+    const userData = await fetchUserData();
+    if (userData['success'] === true) {
+        updateUIWithUserData(userData);
+        
+        addListenersToElements();
+
+        // Loading Screen
+        const primary_loading_screen = document.getElementById('primary_loading_screen');
+        primary_loading_screen.classList.add('hidden');
+
+    }
+
+}
+
+
+async function _main(){
+   
+    await initializeAndLoadUserData();
+    await initialViewPopulate();
+
+}
+
+_main();

@@ -66,8 +66,8 @@ app.on('ready', () => {
     ipcMain.handle('api:get-private-data', apiService.getPrivateData);
     ipcMain.on('auth:log-out', () => {
         console.log('logout');
-        // BrowserWindow.getAllWindows().forEach(window => window.close());
-        createLogoutWindow();
+        BrowserWindow.getAllWindows().forEach(window => window.close());
+        // createLogoutWindow();
     });
 
     showWindow();
