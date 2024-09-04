@@ -70,6 +70,7 @@ function addListenersToElements(){
     // Onclick listener for 'View Files' link
     const view_files_element = document.getElementById('view_files_link');
     view_files_element.addEventListener('click', async (e) => {
+        localStorage.setItem("directory_object_id", null);
         window.electronAPI.redirectToFileView();
     });
     
@@ -193,9 +194,6 @@ async function _initialFileViewPopulate(){
     };
 
 };
-
-
-// _initialFileViewPopulate();
 
 
 async function _updateModalCheckedSelection(){
@@ -409,6 +407,7 @@ dropdownMenu.querySelectorAll('li').forEach(function(item) {
             let last_bc_value = breadcrumb_value_list[breadcrumb_value_list.length - 1];
 
             var final_rv = {
+                'directory_object_id': directory_obj_id,
                 'current_filter_value': last_bc_value,
                 'breadcrumb_value_list': breadcrumb_value_list,
                 'switch_view_to':  current_tmp_selected_value

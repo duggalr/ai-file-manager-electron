@@ -285,6 +285,7 @@ function addListenersToElements(){
     // Onclick listener for 'View Files' link
     const view_files_element = document.getElementById('view_files_link');
     view_files_element.addEventListener('click', async (e) => {
+        localStorage.setItem("directory_object_id", null);
         window.electronAPI.redirectToFileView();
     });
     
