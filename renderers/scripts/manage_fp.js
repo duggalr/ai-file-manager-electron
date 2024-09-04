@@ -38,39 +38,146 @@ async function initialViewPopulate() {
                 let full_user_dir_path = dp_element[2];
                 
                 let list_element = document.createElement('li');
-                list_element.className = 'flex justify-between items-center bg-gray-700 p-3 rounded-md shadow-sm';
+                list_element.className = 'bg-gray-700 p-3 rounded-md shadow-sm flex justify-between items-center';
                 
+                // Create a span element for the directory path
                 let span_one_element = document.createElement('span');
                 span_one_element.setAttribute('data-dir-id', dir_object_id);
                 span_one_element.className = 'text-gray-300 cursor-pointer hover:text-blue-400';
                 span_one_element.innerText = full_user_dir_path;
-
-                span_one_element.addEventListener("click", function handleSpanClick(){
+                
+                // Event listener for the directory path
+                span_one_element.addEventListener("click", function handleSpanClick() {
                     console.log('dir-id:', dir_object_id);
                     localStorage.setItem("directory_object_id", dir_object_id);
                     console.log('localstorage-value:', localStorage.getItem("directory_object_id"));
                     window.electronAPI.redirectToFileView();
-                }, false)
-    
+                }, false);
+                
+                // Create the first button element (Delete)
                 let button_one_element = document.createElement('button');
                 button_one_element.className = 'text-red-400 hover:text-red-600 focus:outline-none cursor-pointer';
                 
-                // TODO: implement
-                button_one_element.addEventListener("click", function handleDeleteButtonClick(){
+                // Event listener for the delete button
+                button_one_element.addEventListener("click", async function handleDeleteButtonClick() {
                     console.log('attempt to delete directory:', dir_object_id);
-                }, false);
-
-                let button_href_element = document.createElement('a');
-                // button_href_element.href = '#';
                 
+                    const response = await fetch('http://127.0.0.1:8000/api/delete_user_file_path', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${accessToken}`,
+                        },
+                        body: JSON.stringify({ directory_object_id: dir_object_id })
+                    });
+                    const data = await response.json();
+                    console.log('Response Data:', data);
+                    if (data['success'] === true) {
+                        location.reload();
+                    }
+                }, false);
+                
+                let button_href_element = document.createElement('a');
                 let delete_icon_element = document.createElement('i');
-                delete_icon_element.className = 'fa-solid fa-trash';
-    
+                delete_icon_element.className = 'fa-solid fa-trash trash-icon';
                 button_href_element.appendChild(delete_icon_element);
                 button_one_element.appendChild(button_href_element);
                 
+                // Create the second button element (View)
+                let button_two_element = document.createElement('button');
+                button_two_element.className = 'text-blue-400 hover:text-blue-600 focus:outline-none cursor-pointer';
+                
+                let button_second_href_element = document.createElement('a');
+                let eye_icon_element = document.createElement('i');
+                eye_icon_element.className = 'fa-solid fa-eye eye-icon';
+                button_second_href_element.appendChild(eye_icon_element);
+                button_two_element.appendChild(button_second_href_element);
+                
+                // Create a div to hold the buttons
+                let buttons_container = document.createElement('div');
+                buttons_container.className = 'flex space-x-4';
+                
+                buttons_container.appendChild(button_two_element);
+                buttons_container.appendChild(button_one_element);
+                
+                // Append the span and buttons container to the list element
                 list_element.appendChild(span_one_element);
-                list_element.appendChild(button_one_element);
+                list_element.appendChild(buttons_container);
+
+                // eye-icon
+                eye_icon_element.addEventListener("click", function handleEyeIconClick() {
+
+                    console.log('eye icon clicked');
+                    console.log('dir-id:', dir_object_id);
+                    localStorage.setItem("directory_object_id", dir_object_id);
+                    window.electronAPI.redirectToFileView();
+
+                });
+
+
+                // // list_element.className = 'flex justify-between items-center bg-gray-700 p-3 rounded-md shadow-sm';
+
+                // let list_element = document.createElement('li');
+                // list_element.className = 'bg-gray-700 p-3 rounded-md shadow-sm p-3 rounded-md items-end';
+                
+                // let span_one_element = document.createElement('span');
+                // span_one_element.setAttribute('data-dir-id', dir_object_id);
+                // span_one_element.className = 'text-gray-300 cursor-pointer hover:text-blue-400';
+                // span_one_element.innerText = full_user_dir_path;
+
+                // span_one_element.addEventListener("click", function handleSpanClick(){
+                //     console.log('dir-id:', dir_object_id);
+                //     localStorage.setItem("directory_object_id", dir_object_id);
+                //     console.log('localstorage-value:', localStorage.getItem("directory_object_id"));
+                //     window.electronAPI.redirectToFileView();
+                // }, false)
+    
+                // let button_one_element = document.createElement('button');
+                // button_one_element.className = 'text-red-400 hover:text-red-600 focus:outline-none cursor-pointer';
+                
+                // // Delete Functionality
+                // button_one_element.addEventListener("click", async function handleDeleteButtonClick(){
+                //     console.log('attempt to delete directory:', dir_object_id);
+
+                //     const response = await fetch('http://127.0.0.1:8000/api/delete_user_file_path', {
+                //         method: 'POST',
+                //         headers: {
+                //             'Content-Type': 'application/json',
+                //             'Authorization': `Bearer ${accessToken}`,
+                //         },
+                //         body: JSON.stringify({ 
+                //             directory_object_id: dir_object_id, 
+                //         })
+                //     });
+                //     const data = await response.json();
+                //     console.log('Response Data:', data);
+                //     if (data['success'] === true){
+                //         location.reload();
+                //     }
+                //     // return data;                                        
+
+                // }, false);
+
+                // let button_href_element = document.createElement('a');
+                // // button_href_element.href = '#';
+
+                // let button_second_href_element = document.createElement('a');
+                // let button_two_element = document.createElement('button');
+                // let eye_icon_element = document.createElement('i');
+                // eye_icon_element.className = 'fa-solid fa-eye eye-icon';
+
+                // button_second_href_element.appendChild(eye_icon_element);
+                // button_two_element.appendChild(button_second_href_element);
+
+                // let delete_icon_element = document.createElement('i');
+                // delete_icon_element.className = 'fa-solid fa-trash trash-icon';
+    
+                // button_href_element.appendChild(delete_icon_element);
+                // button_one_element.appendChild(button_href_element);
+                            
+                // list_element.appendChild(span_one_element);
+                // list_element.appendChild(button_one_element);
+                // list_element.appendChild(button_two_element);
     
                 document.getElementById('directory_path_list').prepend(list_element);
 
@@ -190,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button_href_element.href = '#';
 
             let delete_icon_element = document.createElement('i');
-            delete_icon_element.className = 'fa-solid fa-trash';
+            delete_icon_element.className = 'fa-solid fa-trash trash-icon';
 
             button_href_element.appendChild(delete_icon_element);
             button_one_element.appendChild(button_href_element);
@@ -228,9 +335,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     clearInterval(intervalId);
                     console.log('Processing completed successfully!');
-                    window.electronAPI.redirectToManageFilePath();
-                    // // fp_loader.classList.add('hidden');
-                    // window.electronAPI.redirectToFileView();
+                    location.reload();
+                    // window.electronAPI.redirectToManageFilePath();
+                    // // // fp_loader.classList.add('hidden');
+                    // // window.electronAPI.redirectToFileView();
 
                 }
 
