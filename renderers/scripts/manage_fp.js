@@ -1,10 +1,9 @@
 
-// TODO: fetch filepaths
-
 // Function to fetch user file paths
 async function fetchUserFilePaths() {
 
-    const response = await fetch('http://127.0.0.1:8000/api/get_user_filepaths', {
+    // const response = await fetch('http://127.0.0.1:8000/api/get_user_filepaths', {
+        const response = await fetch('https://api.filecompanion.app/api/get_user_filepaths', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -61,8 +60,9 @@ async function initialViewPopulate() {
                 // Event listener for the delete button
                 button_one_element.addEventListener("click", async function handleDeleteButtonClick() {
                     console.log('attempt to delete directory:', dir_object_id);
-                
-                    const response = await fetch('http://127.0.0.1:8000/api/delete_user_file_path', {
+                                    
+                    // const response = await fetch('http://127.0.0.1:8000/api/delete_user_file_path', {
+                    const response = await fetch('https://api.filecompanion.app/api/delete_user_file_path', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -223,7 +223,8 @@ async function initialViewPopulate() {
 
 async function handleUserDirFPSubmission(directoryPathValue) {
 
-    const response = await fetch('http://127.0.0.1:8000/api/handle_user_directory_filepath_submission', {
+    // const response = await fetch('http://127.0.0.1:8000/api/handle_user_directory_filepath_submission', {
+    const response = await fetch('https://api.filecompanion.app/api/handle_user_directory_filepath_submission', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -242,7 +243,8 @@ async function handleUserDirFPSubmission(directoryPathValue) {
 
 async function checkUserProcessingStatus() {
 
-    const response = await fetch('http://127.0.0.1:8000/api/check_processing_status', {
+    // const response = await fetch('http://127.0.0.1:8000/api/check_processing_status', {
+    const response = await fetch('https://api.filecompanion.app/api/check_processing_status', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
