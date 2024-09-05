@@ -45,6 +45,7 @@ function updateUIWithUserData(userData) {
 async function fetchUserData() {
 
     const response = await fetch('http://127.0.0.1:8000/api/get_user_profile_information', {
+    // const response = await fetch('https://api.filecompanion.app/api/get_user_profile_information', {
         method: 'POST',
         credentials: 'include',
         headers: {

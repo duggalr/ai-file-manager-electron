@@ -51,8 +51,8 @@ function updateUIWithUserData(userData) {
 // Function to fetch user data from Django backend
 async function fetchUserData() {
 
-    // const response = await fetch('http://127.0.0.1:8000/api/get_user_profile_information', {
-    const response = await fetch('https://api.filecompanion.app/api/get_user_profile_information', {
+    const response = await fetch('http://127.0.0.1:8000/api/get_user_profile_information', {
+    // const response = await fetch('https://api.filecompanion.app/api/get_user_profile_information', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -124,8 +124,8 @@ async function fetchDirectoryFiles(directory_object_id) {
 
     try {
         // Assuming you have an API endpoint to fetch files
-        // const response = await fetch('http://127.0.0.1:8000/api/view_directory_files', {
-        const response = await fetch('https://api.filecompanion.app/api/view_directory_files', {
+        const response = await fetch('http://127.0.0.1:8000/api/view_directory_files', {
+        // const response = await fetch('https://api.filecompanion.app/api/view_directory_files', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -417,8 +417,8 @@ dropdownMenu.querySelectorAll('li').forEach(function(item) {
             console.log('final-rv:', final_rv);
 
             // TODO: 
-            // const response = await fetch('http://127.0.0.1:8000/api/switch_filtered_file_data', {
-            const response = await fetch('https://api.filecompanion.app/api/switch_filtered_file_data', {
+            const response = await fetch('http://127.0.0.1:8000/api/switch_filtered_file_data', {
+            // const response = await fetch('https://api.filecompanion.app/api/switch_filtered_file_data', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -493,8 +493,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // const response = await fetch('http://127.0.0.1:8000/api/update_view_preference', {
-        const response = await fetch('https://api.filecompanion.app/api/update_view_preference', {
+        const response = await fetch('http://127.0.0.1:8000/api/update_view_preference', {
+        // const response = await fetch('https://api.filecompanion.app/api/update_view_preference', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -522,8 +522,8 @@ async function filterCategoryData(final_rv, backtrack=false){
     let filter_value = final_rv['current_filter_value'];
     console.log('filter-value:', filter_value);
 
-    // const response = await fetch('http://127.0.0.1:8000/api/handle_filtering_file_data', {
-    const response = await fetch('https://api.filecompanion.app/api/handle_filtering_file_data', {
+    const response = await fetch('http://127.0.0.1:8000/api/handle_filtering_file_data', {
+    // const response = await fetch('https://api.filecompanion.app/api/handle_filtering_file_data', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -769,8 +769,8 @@ $(document).on("click", "tr", async function(){
     // console.log('filtering-file-data-response:', data);
 
 
-    // const response = await fetch('http://127.0.0.1:8000/api/open_user_file', {
-    const response = await fetch('https://api.filecompanion.app/api/open_user_file', {
+    const response = await fetch('http://127.0.0.1:8000/api/open_user_file', {
+    // const response = await fetch('https://api.filecompanion.app/api/open_user_file', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

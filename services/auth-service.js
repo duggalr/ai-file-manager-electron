@@ -135,6 +135,7 @@ async function saveUserProfile(profile) {
     const apiOptions = {
         method: 'POST',
         url: 'http://127.0.0.1:8000/api/save_user_profile',
+        // url: 'https://api.filecompanion.app/api/save_user_profile',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${accessToken}`,  // Optional: Include the access token if needed for authentication
