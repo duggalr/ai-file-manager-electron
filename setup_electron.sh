@@ -11,12 +11,17 @@ npm install
 # Step 3: Create env-variables.json file
 echo "Creating env-variables.json file..."
 
+read -p "Enter your Auth0 Domain: " auth0_domain
+read -p "Enter your Auth0 Client ID: " auth0_client_id
+read -p "Enter your Auth0 Client Secret: " auth_client_secret
+read -p "Enter your Auth0 API Identifier: " api_identifier
+
 cat <<EOT > env-variables.json
 {
-    "auth0Domain": "dev-2qo458j0ehopg3ae.us.auth0.com",
-    "clientId": "90h1RC5tiPllcxlEr0ECFN9mVpNDS8Rk",
-    "clientSecret": "-LBO6Y3o2D1JJmL904mKD2V0UM24CL5yhfNw30OHKDru93ph3fbLFH9BB4fWIzSL",
-    "apiIdentifier": "https://dev-2qo458j0ehopg3ae.us.auth0.com/api/v2/"
+    "auth0Domain": $auth0_domain,
+    "clientId": $auth0_client_id,
+    "clientSecret": $auth_client_secret,
+    "apiIdentifier": $auth_client_identifier
 }
 EOT
 
